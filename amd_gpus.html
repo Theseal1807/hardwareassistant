@@ -1,0 +1,537 @@
+<script type="text/javascript">
+        var gk_isXlsx = false;
+        var gk_xlsxFileLookup = {};
+        var gk_fileData = {};
+        function filledCell(cell) {
+          return cell !== '' && cell != null;
+        }
+        function loadFileData(filename) {
+        if (gk_isXlsx && gk_xlsxFileLookup[filename]) {
+            try {
+                var workbook = XLSX.read(gk_fileData[filename], { type: 'base64' });
+                var firstSheetName = workbook.SheetNames[0];
+                var worksheet = workbook.Sheets[firstSheetName];
+
+                // Convert sheet to JSON to filter blank rows
+                var jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1, blankrows: false, defval: '' });
+                // Filter out blank rows (rows where all cells are empty, null, or undefined)
+                var filteredData = jsonData.filter(row => row.some(filledCell));
+
+                // Heuristic to find the header row by ignoring rows with fewer filled cells than the next row
+                var headerRowIndex = filteredData.findIndex((row, index) =>
+                  row.filter(filledCell).length >= filteredData[index + 1]?.filter(filledCell).length
+                );
+                // Fallback
+                if (headerRowIndex === -1 || headerRowIndex > 25) {
+                  headerRowIndex = 0;
+                }
+
+                // Convert filtered JSON back to CSV
+                var csv = XLSX.utils.aoa_to_sheet(filteredData.slice(headerRowIndex)); // Create a new sheet from filtered array of arrays
+                csv = XLSX.utils.sheet_to_csv(csv, { header: 1 });
+                return csv;
+            } catch (e) {
+                console.error(e);
+                return "";
+            }
+        }
+        return gk_fileData[filename] || "";
+        }
+        </script><!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AMD GPUs from 2018 to 2025</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 0; padding: 20px; display: flex; }
+        .sidebar { position: sticky; top: 20px; width: 200px; padding-right: 20px; }
+        .sidebar ul { list-style: none; padding: 0; }
+        .sidebar a { text-decoration: none; color: #007BFF; }
+        .sidebar a:hover { text-decoration: underline; }
+        main { flex-grow: 1; }
+        .gpu-section { display: flex; flex-wrap: wrap; margin-bottom: 40px; border-bottom: 1px solid #ccc; padding-bottom: 20px; }
+        .image { width: 25%; min-width: 200px; }
+        .image img { max-width: 100%; height: auto; }
+        .content { width: 70%; padding-left: 20px; }
+        .buy-buttons { margin-bottom: 20px; }
+        .buy-buttons button { display: block; width: 100%; margin: 5px 0; padding: 10px; background-color: #f0f0f0; border: none; cursor: pointer; }
+        .buy-buttons button:hover { background-color: #e0e0e0; }
+        .description { background-color: #fff3cd; padding: 10px; margin-bottom: 20px; }
+        .warning { color: #856404; font-weight: bold; }
+        table { border-collapse: collapse; width: 100%; margin-bottom: 20px; }
+        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+        th { background-color: #f2f2f2; }
+        .back-to-top { margin-top: 10px; }
+    </style>
+</head>
+<body>
+    <nav class="sidebar">
+        <h3>Navigation</h3>
+        <ul>
+            <li><a href="#rx5700xt">RX 5700 XT</a></li>
+            <li><a href="#rx5700">RX 5700</a></li>
+            <li><a href="#rx5600xt">RX 5600 XT</a></li>
+            <li><a href="#rx5500xt">RX 5500 XT</a></li>
+            <li><a href="#rx6900xt">RX 6900 XT</a></li>
+            <li><a href="#rx6800xt">RX 6800 XT</a></li>
+            <li><a href="#rx6800">RX 6800</a></li>
+            <li><a href="#rx6700xt">RX 6700 XT</a></li>
+            <li><a href="#rx6600xt">RX 6600 XT</a></li>
+            <li><a href="#rx6500xt">RX 6500 XT</a></li>
+            <li><a href="#rx7900xtx">RX 7900 XTX</a></li>
+            <li><a href="#rx7900xt">RX 7900 XT</a></li>
+            <li><a href="#rx7600">RX 7600</a></li>
+            <li><a href="#rx9070xt">RX 9070 XT</a></li>
+            <li><a href="#rx9060xt">RX 9060 XT</a></li>
+        </ul>
+    </nav>
+    <main>
+        <header>
+            <h1>AMD GPUs from 2018 to 2025</h1>
+        </header>
+
+        <!-- RX 5000 Series -->
+        <section id="rx5700xt" class="gpu-section">
+            <div class="image"><img src="placeholder.jpg" alt="RX 5700 XT"></div>
+            <div class="content">
+                <h2>AMD Radeon RX 5700 XT</h2>
+                <div class="buy-buttons">
+                    <button>Buy on Amazon</button>
+                    <button>Buy on AMD</button>
+                    <button>Buy on Newegg</button>
+                    <button>Buy on Aliexpress</button>
+                    <button>Buy on Ebay</button>
+                </div>
+                <p class="description"><span class="warning">NOTE: Description from AMD</span> The AMD Radeon RX 5700 XT, built on the RDNA architecture, delivers high-performance gaming at 1440p with exceptional efficiency and stunning visuals.</p>
+                <p><strong>MSRP:</strong> $399</p>
+                <table>
+                    <tr><th>Specification</th><th>Value</th></tr>
+                    <tr><td>Compute Units</td><td>40</td></tr>
+                    <tr><td>Stream Processors</td><td>2560</td></tr>
+                    <tr><td>Boost Clock</td><td>1905 MHz</td></tr>
+                    <tr><td>Memory</td><td>8GB GDDR6</td></tr>
+                    <tr><td>TDP</td><td>225W</td></tr>
+                </table>
+                <ul>
+                    <li><a href="https://www.reddit.com/r/Amd/">AMD Subreddit</a></li>
+                    <li><a href="https://www.tomshardware.com/reviews/amd-radeon-rx-5700-xt">Tom's Hardware Review</a></li>
+                </ul>
+                <a href="#" class="back-to-top">Back to Top</a>
+            </div>
+        </section>
+
+        <section id="rx5700" class="gpu-section">
+            <div class="image"><img src="placeholder.jpg" alt="RX 5700"></div>
+            <div class="content">
+                <h2>AMD Radeon RX 5700</h2>
+                <div class="buy-buttons">
+                    <button>Buy on Amazon</button>
+                    <button>Buy on AMD</button>
+                    <button>Buy on Newegg</button>
+                    <button>Buy on Aliexpress</button>
+                    <button>Buy on Ebay</button>
+                </div>
+                <p class="description"><span class="warning">NOTE: Description from AMD</span> The AMD Radeon RX 5700 offers powerful 1440p gaming performance with the RDNA architecture, designed for gamers seeking value and efficiency.</p>
+                <p><strong>MSRP:</strong> $349</p>
+                <table>
+                    <tr><th>Specification</th><th>Value</th></tr>
+                    <tr><td>Compute Units</td><td>36</td></tr>
+                    <tr><td>Stream Processors</td><td>2304</td></tr>
+                    <tr><td>Boost Clock</td><td>1725 MHz</td></tr>
+                    <tr><td>Memory</td><td>8GB GDDR6</td></tr>
+                    <tr><td>TDP</td><td>180W</td></tr>
+                </table>
+                <ul>
+                    <li><a href="https://www.reddit.com/r/Amd/">AMD Subreddit</a></li>
+                    <li><a href="https://www.tomshardware.com/reviews/amd-radeon-rx-5700">Tom's Hardware Review</a></li>
+                </ul>
+                <a href="#" class="back-to-top">Back to Top</a>
+            </div>
+        </section>
+
+        <section id="rx5600xt" class="gpu-section">
+            <div class="image"><img src="placeholder.jpg" alt="RX 5600 XT">[Placeholder]</div>
+            <div class="content">
+                <h2>AMD Radeon RX 5600 XT</h2>
+                <div class="buy-buttons">
+                    <button>Buy on Amazon</button>
+                    <button>Buy on AMD</button>
+                    <button>Buy on Newegg</button>
+                    <button>Buy on Aliexpress</button>
+                    <button>Buy on Ebay</button>
+                </div>
+                <p class="description"><span class="warning">NOTE: Description from AMD</span> The AMD Radeon RX 5600 XT delivers outstanding 1080p gaming with the RDNA architecture, perfect for budget-conscious gamers.</p>
+                <p><strong>MSRP:</strong> $279</p>
+                <table>
+                    <tr><th>Specification</th><th>Value</th></tr>
+                    <tr><td>Compute Units</td><td>36</td></tr>
+                    <tr><td>Stream Processors</td><td>2304</td></tr>
+                    <tr><td>Boost Clock</td><td>1560 MHz</td></tr>
+                    <tr><td>Memory</td><td>6GB GDDR6</td></tr>
+                    <tr><td>TDP</td><td>150W</td></tr>
+                </table>
+                <ul>
+                    <li><a href="https://www.reddit.com/r/Amd/">AMD Subreddit</a></li>
+                    <li><a href="https://www.tomshardware.com/reviews/amd-radeon-rx-5600-xt">Tom's Hardware Review</a></li>
+                </ul>
+                <a href="#" class="back-to-top">Back to Top</a>
+            </div>
+        </section>
+
+        <section id="rx5500xt" class="gpu-section">
+            <div class="image"><img src="placeholder.jpg" alt="RX 5500 XT"></div>
+            <div class="content">
+                <h2>AMD Radeon RX 5500 XT</h2>
+                <div class="buy-buttons">
+                    <button>Buy on Amazon</button>
+                    <button>Buy on AMD</button>
+                    <button>Buy on Newegg</button>
+                    <button>Buy on Aliexpress</button>
+                    <button>Buy on Ebay</button>
+                </div>
+                <p class="description"><span class="warning">NOTE: Description from AMD</span> The AMD Radeon RX 5500 XT brings efficient 1080p gaming to the masses with the RDNA architecture.</p>
+                <p><strong>MSRP:</strong> $199</p>
+                <table>
+                    <tr><th>Specification</th><th>Value</th></tr>
+                    <tr><td>Compute Units</td><td>22</td></tr>
+                    <tr><td>Stream Processors</td><td>1408</td></tr>
+                    <tr><td>Boost Clock</td><td>1845 MHz</td></tr>
+                    <tr><td>Memory</td><td>4GB GDDR6</td></tr>
+                    <tr><td>TDP</td><td>130W</td></tr>
+                </table>
+                <ul>
+                    <li><a href="https://www.reddit.com/r/Amd/">AMD Subreddit</a></li>
+                    <li><a href="https://www.tomshardware.com/reviews/amd-radeon-rx-5500-xt">Tom's Hardware Review</a></li>
+                </ul>
+                <a href="#" class="back-to-top">Back to Top</a>
+            </div>
+        </section>
+
+        <!-- RX 6000 Series -->
+        <section id="rx6900xt" class="gpu-section">
+            <div class="image"><img src="placeholder.jpg" alt="RX 6900 XT"></div>
+            <div class="content">
+                <h2>AMD Radeon RX 6900 XT</h2>
+                <div class="buy-buttons">
+                    <button>Buy on Amazon</button>
+                    <button>Buy on AMD</button>
+                    <button>Buy on Newegg</button>
+                    <button>Buy on Aliexpress</button>
+                    <button>Buy on Ebay</button>
+                </div>
+                <p class="description"><span class="warning">NOTE: Description from AMD</span> The AMD Radeon RX 6900 XT, powered by RDNA 2, offers flagship 4K gaming performance with cutting-edge features.</p>
+                <p><strong>MSRP:</strong> $999</p>
+                <table>
+                    <tr><th>Specification</th><th>Value</th></tr>
+                    <tr><td>Compute Units</td><td>80</td></tr>
+                    <tr><td>Stream Processors</td><td>5120</td></tr>
+                    <tr><td>Boost Clock</td><td>2250 MHz</td></tr>
+                    <tr><td>Memory</td><td>16GB GDDR6</td></tr>
+                    <tr><td>TDP</td><td>300W</td></tr>
+                </table>
+                <ul>
+                    <li><a href="https://www.reddit.com/r/Amd/">AMD Subreddit</a></li>
+                    <li><a href="https://www.tomshardware.com/reviews/amd-radeon-rx-6900-xt">Tom's Hardware Review</a></li>
+                </ul>
+                <a href="#" class="back-to-top">Back to Top</a>
+            </div>
+        </section>
+
+        <section id="rx6800xt" class="gpu-section">
+            <div class="image"><img src="placeholder.jpg" alt="RX 6800 XT"></div>
+            <div class="content">
+                <h2>AMD Radeon RX 6800 XT</h2>
+                <div class="buy-buttons">
+                    <button>Buy on Amazon</button>
+                    <button>Buy on AMD</button>
+                    <button>Buy on Newegg</button>
+                    <button>Buy on Aliexpress</button>
+                    <button>Buy on Ebay</button>
+                </div>
+                <p class="description"><span class="warning">NOTE: Description from AMD</span> The AMD Radeon RX 6800 XT delivers exceptional 4K and 1440p gaming with RDNA 2 architecture.</p>
+                <p><strong>MSRP:</strong> $649</p>
+                <table>
+                    <tr><th>Specification</th><th>Value</th></tr>
+                    <tr><td>Compute Units</td><td>72</td></tr>
+                    <tr><td>Stream Processors</td><td>4608</td></tr>
+                    <tr><td>Boost Clock</td><td>2250 MHz</td></tr>
+                    <tr><td>Memory</td><td>16GB GDDR6</td></tr>
+                    <tr><td>TDP</td><td>300W</td></tr>
+                </table>
+                <ul>
+                    <li><a href="https://www.reddit.com/r/Amd/">AMD Subreddit</a></li>
+                    <li><a href="https://www.tomshardware.com/reviews/amd-radeon-rx-6800-xt">Tom's Hardware Review</a></li>
+                </ul>
+                <a href="#" class="back-to-top">Back to Top</a>
+            </div>
+        </section>
+
+        <section id="rx6800" class="gpu-section">
+            <div class="image"><img src="placeholder.jpg" alt="RX 6800"></div>
+            <div class="content">
+                <h2>AMD Radeon RX 6800</h2>
+                <div class="buy-buttons">
+                    <button>Buy on Amazon</button>
+                    <button>Buy on AMD</button>
+                    <button>Buy on Newegg</button>
+                    <button>Buy on Aliexpress</button>
+                    <button>Buy on Ebay</button>
+                </div>
+                <p class="description"><span class="warning">NOTE: Description from AMD</span> The AMD Radeon RX 6800 provides high-end 1440p gaming with RDNA 2 efficiency.</p>
+                <p><strong>MSRP:</strong> $579</p>
+                <table>
+                    <tr><th>Specification</th><th>Value</th></tr>
+                    <tr><td>Compute Units</td><td>60</td></tr>
+                    <tr><td>Stream Processors</td><td>3840</td></tr>
+                    <tr><td>Boost Clock</td><td>2105 MHz</td></tr>
+                    <tr><td>Memory</td><td>16GB GDDR6</td></tr>
+                    <tr><td>TDP</td><td>250W</td></tr>
+                </table>
+                <ul>
+                    <li><a href="https://www.reddit.com/r/Amd/">AMD Subreddit</a></li>
+                    <li><a href="https://www.tomshardware.com/reviews/amd-radeon-rx-6800">Tom's Hardware Review</a></li>
+                </ul>
+                <a href="#" class="back-to-top">Back to Top</a>
+            </div>
+        </section>
+
+        <section id="rx6700xt" class="gpu-section">
+            <div class="image"><img src="placeholder.jpg" alt="RX 6700 XT"></div>
+            <div class="content">
+                <h2>AMD Radeon RX 6700 XT</h2>
+                <div class="buy-buttons">
+                    <button>Buy on Amazon</button>
+                    <button>Buy on AMD</button>
+                    <button>Buy on Newegg</button>
+                    <button>Buy on Aliexpress</button>
+                    <button>Buy on Ebay</button>
+                </div>
+                <p class="description"><span class="warning">NOTE: Description from AMD</span> The AMD Radeon RX 6700 XT excels at 1440p gaming with RDNA 2 technology.</p>
+                <p><strong>MSRP:</strong> $479</p>
+                <table>
+                    <tr><th>Specification</th><th>Value</th></tr>
+                    <tr><td>Compute Units</td><td>40</td></tr>
+                    <tr><td>Stream Processors</td><td>2560</td></tr>
+                    <tr><td>Boost Clock</td><td>2581 MHz</td></tr>
+                    <tr><td>Memory</td><td>12GB GDDR6</td></tr>
+                    <tr><td>TDP</td><td>230W</td></tr>
+                </table>
+                <ul>
+                    <li><a href="https://www.reddit.com/r/Amd/">AMD Subreddit</a></li>
+                    <li><a href="https://www.tomshardware.com/reviews/amd-radeon-rx-6700-xt">Tom's Hardware Review</a></li>
+                </ul>
+                <a href="#" class="back-to-top">Back to Top</a>
+            </div>
+        </section>
+
+        <section id="rx6600xt" class="gpu-section">
+            <div class="image"><img src="placeholder.jpg" alt="RX 6600 XT"></div>
+            <div class="content">
+                <h2>AMD Radeon RX 6600 XT</h2>
+                <div class="buy-buttons">
+                    <button>Buy on Amazon</button>
+                    <button>Buy on AMD</button>
+                    <button>Buy on Newegg</button>
+                    <button>Buy on Aliexpress</button>
+                    <button>Buy on Ebay</button>
+                </div>
+                <p class="description"><span class="warning">NOTE: Description from AMD</span> The AMD Radeon RX 6600 XT is optimized for 1080p gaming with RDNA 2 performance.</p>
+                <p><strong>MSRP:</strong> $379</p>
+                <table>
+                    <tr><th>Specification</th><th>Value</th></tr>
+                    <tr><td>Compute Units</td><td>32</td></tr>
+                    <tr><td>Stream Processors</td><td>2048</td></tr>
+                    <tr><td>Boost Clock</td><td>2589 MHz</td></tr>
+                    <tr><td>Memory</td><td>8GB GDDR6</td></tr>
+                    <tr><td>TDP</td><td>160W</td></tr>
+                </table>
+                <ul>
+                    <li><a href="https://www.reddit.com/r/Amd/">AMD Subreddit</a></li>
+                    <li><a href="https://www.tomshardware.com/reviews/amd-radeon-rx-6600-xt">Tom's Hardware Review</a></li>
+                </ul>
+                <a href="#" class="back-to-top">Back to Top</a>
+            </div>
+        </section>
+
+        <section id="rx6500xt" class="gpu-section">
+            <div class="image"><img src="placeholder.jpg" alt="RX 6500 XT"></div>
+            <div class="content">
+                <h2>AMD Radeon RX 6500 XT</h2>
+                <div class="buy-buttons">
+                    <button>Buy on Amazon</button>
+                    <button>Buy on AMD</button>
+                    <button>Buy on Newegg</button>
+                    <button>Buy on Aliexpress</button>
+                    <button>Buy on Ebay</button>
+                </div>
+                <p class="description"><span class="warning">NOTE: Description from AMD</span> The AMD Radeon RX 6500 XT offers affordable 1080p gaming with RDNA 2 efficiency.</p>
+                <p><strong>MSRP:</strong> $199</p>
+                <table>
+                    <tr><th>Specification</th><th>Value</th></tr>
+                    <tr><td>Compute Units</td><td>16</td></tr>
+                    <tr><td>Stream Processors</td><td>1024</td></tr>
+                    <tr><td>Boost Clock</td><td>2815 MHz</td></tr>
+                    <tr><td>Memory</td><td>4GB GDDR6</td></tr>
+                    <tr><td>TDP</td><td>107W</td></tr>
+                </table>
+                <ul>
+                    <li><a href="https://www.reddit.com/r/Amd/">AMD Subreddit</a></li>
+                    <li><a href="https://www.tomshardware.com/reviews/amd-radeon-rx-6500-xt">Tom's Hardware Review</a></li>
+                </ul>
+                <a href="#" class="back-to-top">Back to Top</a>
+            </div>
+        </section>
+
+        <!-- RX 7000 Series -->
+        <section id="rx7900xtx" class="gpu-section">
+            <div class="image"><img src="placeholder.jpg" alt="RX 7900 XTX"></div>
+            <div class="content">
+                <h2>AMD Radeon RX 7900 XTX</h2>
+                <div class="buy-buttons">
+                    <button>Buy on Amazon</button>
+                    <button>Buy on AMD</button>
+                    <button>Buy on Newegg</button>
+                    <button>Buy on Aliexpress</button>
+                    <button>Buy on Ebay</button>
+                </div>
+                <p class="description"><span class="warning">NOTE: Description from AMD</span> The AMD Radeon RX 7900 XTX, featuring RDNA 3, delivers unparalleled 4K gaming performance.</p>
+                <p><strong>MSRP:</strong> $999</p>
+                <table>
+                    <tr><th>Specification</th><th>Value</th></tr>
+                    <tr><td>Compute Units</td><td>96</td></tr>
+                    <tr><td>Stream Processors</td><td>6144</td></tr>
+                    <tr><td>Boost Clock</td><td>2500 MHz</td></tr>
+                    <tr><td>Memory</td><td>24GB GDDR6</td></tr>
+                    <tr><td>TDP</td><td>355W</td></tr>
+                </table>
+                <ul>
+                    <li><a href="https://www.reddit.com/r/Amd/">AMD Subreddit</a></li>
+                    <li><a href="https://www.tomshardware.com/reviews/amd-radeon-rx-7900-xtx">Tom's Hardware Review</a></li>
+                </ul>
+                <a href="#" class="back-to-top">Back to Top</a>
+            </div>
+        </section>
+
+        <section id="rx7900xt" class="gpu-section">
+            <div class="image"><img src="placeholder.jpg" alt="RX 7900 XT"></div>
+            <div class="content">
+                <h2>AMD Radeon RX 7900 XT</h2>
+                <div class="buy-buttons">
+                    <button>Buy on Amazon</button>
+                    <button>Buy on AMD</button>
+                    <button>Buy on Newegg</button>
+                    <button>Buy on Aliexpress</button>
+                    <button>Buy on Ebay</button>
+                </div>
+                <p class="description"><span class="warning">NOTE: Description from AMD</span> The AMD Radeon RX 7900 XT offers premium 4K gaming with RDNA 3 technology.</p>
+                <p><strong>MSRP:</strong> $899</p>
+                <table>
+                    <tr><th>Specification</th><th>Value</th></tr>
+                    <tr><td>Compute Units</td><td>84</td></tr>
+                    <tr><td>Stream Processors</td><td>5376</td></tr>
+                    <tr><td>Boost Clock</td><td>2400 MHz</td></tr>
+                    <tr><td>Memory</td><td>20GB GDDR6</td></tr>
+                    <tr><td>TDP</td><td>300W</td></tr>
+                </table>
+                <ul>
+                    <li><a href="https://www.reddit.com/r/Amd/">AMD Subreddit</a></li>
+                    <li><a href="https://www.tomshardware.com/reviews/amd-radeon-rx-7900-xt">Tom's Hardware Review</a></li>
+                </ul>
+                <a href="#" class="back-to-top">Back to Top</a>
+            </div>
+        </section>
+
+        <section id="rx7600" class="gpu-section">
+            <div class="image"><img src="placeholder.jpg" alt="RX 7600"></div>
+            <div class="content">
+                <h2>AMD Radeon RX 7600</h2>
+                <div class="buy-buttons">
+                    <button>Buy on Amazon</button>
+                    <button>Buy on AMD</button>
+                    <button>Buy on Newegg</button>
+                    <button>Buy on Aliexpress</button>
+                    <button>Buy on Ebay</button>
+                </div>
+                <p class="description"><span class="warning">NOTE: Description from AMD</span> The AMD Radeon RX 7600 provides excellent 1080p gaming with RDNA 3 efficiency.</p>
+                <p><strong>MSRP:</strong> $269</p>
+                <table>
+                    <tr><th>Specification</th><th>Value</th></tr>
+                    <tr><td>Compute Units</td><td>32</td></tr>
+                    <tr><td>Stream Processors</td><td>2048</td></tr>
+                    <tr><td>Boost Clock</td><td>2655 MHz</td></tr>
+                    <tr><td>Memory</td><td>8GB GDDR6</td></tr>
+                    <tr><td>TDP</td><td>165W</td></tr>
+                </table>
+                <ul>
+                    <li><a href="https://www.reddit.com/r/Amd/">AMD Subreddit</a></li>
+                    <li><a href="https://www.tomshardware.com/reviews/amd-radeon-rx-7600">Tom's Hardware Review</a></li>
+                </ul>
+                <a href="#" class="back-to-top">Back to Top</a>
+            </div>
+        </section>
+
+        <!-- RX 9000 Series -->
+        <section id="rx9070xt" class="gpu-section">
+            <div class="image"><img src="placeholder.jpg" alt="RX 9070 XT"></div>
+            <div class="content">
+                <h2>AMD Radeon RX 9070 XT</h2>
+                <div class="buy-buttons">
+                    <button>Buy on Amazon</button>
+                    <button>Buy on AMD</button>
+                    <button>Buy on Newegg</button>
+                    <button>Buy on Aliexpress</button>
+                    <button>Buy on Ebay</button>
+                </div>
+                <p class="description"><span class="warning">NOTE: Description from AMD</span> The AMD Radeon RX 9070 XT, built on RDNA 4, offers ultra-fast 4K gaming and AI-enhanced performance.</p>
+                <p><strong>MSRP:</strong> $799 (est.)</p>
+                <table>
+                    <tr><th>Specification</th><th>Value</th></tr>
+                    <tr><td>Compute Units</td><td>80 (est.)</td></tr>
+                    <tr><td>Stream Processors</td><td>5120 (est.)</td></tr>
+                    <tr><td>Boost Clock</td><td>2700 MHz (est.)</td></tr>
+                    <tr><td>Memory</td><td>16GB GDDR6 (est.)</td></tr>
+                    <tr><td>TDP</td><td>320W (est.)</td></tr>
+                </table>
+                <ul>
+                    <li><a href="https://www.reddit.com/r/Amd/">AMD Subreddit</a></li>
+                    <li><a href="https://www.amd.com/en/products/graphics/radeon-rx-9000">AMD Product Page</a></li>
+                </ul>
+                <a href="#" class="back-to-top">Back to Top</a>
+            </div>
+        </section>
+
+        <section id="rx9060xt" class="gpu-section">
+            <div class="image"><img src="placeholder.jpg" alt="RX 9060 XT"></div>
+            <div class="content">
+                <h2>AMD Radeon RX 9060 XT</h2>
+                <div class="buy-buttons">
+                    <button>Buy on Amazon</button>
+                    <button>Buy on AMD</button>
+                    <button>Buy on Newegg</button>
+                    <button>Buy on Aliexpress</button>
+                    <button>Buy on Ebay</button>
+                </div>
+                <p class="description"><span class="warning">NOTE: Description from AMD</span> The AMD Radeon RX 9060 XT, powered by RDNA 4, delivers stunning visuals and high-framerate 1440p gaming.</p>
+                <p><strong>MSRP:</strong> $599 (est.)</p>
+                <table>
+                    <tr><th>Specification</th><th>Value</th></tr>
+                    <tr><td>Compute Units</td><td>64 (est.)</td></tr>
+                    <tr><td>Stream Processors</td><td>4096 (est.)</td></tr>
+                    <tr><td>Boost Clock</td><td>2600 MHz (est.)</td></tr>
+                    <tr><td>Memory</td><td>12GB GDDR6 (est.)</td></tr>
+                    <tr><td>TDP</td><td>250W (est.)</td></tr>
+                </table>
+                <ul>
+                    <li><a href="https://www.reddit.com/r/Amd/">AMD Subreddit</a></li>
+                    <li><a href="https://www.amd.com/en/products/graphics/radeon-rx-9000">AMD Product Page</a></li>
+                </ul>
+                <a href="#" class="back-to-top">Back to Top</a>
+            </div>
+        </section>
+    </main>
+    <footer>
+        <p>© 2025 HardwareAssistant</p>
+    </footer>
+</body>
+</html>
