@@ -1,0 +1,130 @@
+<script type="text/javascript">
+        var gk_isXlsx = false;
+        var gk_xlsxFileLookup = {};
+        var gk_fileData = {};
+        function filledCell(cell) {
+          return cell !== '' && cell != null;
+        }
+        function loadFileData(filename) {
+        if (gk_isXlsx && gk_xlsxFileLookup[filename]) {
+            try {
+                var workbook = XLSX.read(gk_fileData[filename], { type: 'base64' });
+                var firstSheetName = workbook.SheetNames[0];
+                var worksheet = workbook.Sheets[firstSheetName];
+
+                // Convert sheet to JSON to filter blank rows
+                var jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1, blankrows: false, defval: '' });
+                // Filter out blank rows (rows where all cells are empty, null, or undefined)
+                var filteredData = jsonData.filter(row => row.some(filledCell));
+
+                // Heuristic to find the header row by ignoring rows with fewer filled cells than the next row
+                var headerRowIndex = filteredData.findIndex((row, index) =>
+                  row.filter(filledCell).length >= filteredData[index + 1]?.filter(filledCell).length
+                );
+                // Fallback
+                if (headerRowIndex === -1 || headerRowIndex > 25) {
+                  headerRowIndex = 0;
+                }
+
+                // Convert filtered JSON back to CSV
+                var csv = XLSX.utils.aoa_to_sheet(filteredData.slice(headerRowIndex)); // Create a new sheet from filtered array of arrays
+                csv = XLSX.utils.sheet_to_csv(csv, { header: 1 });
+                return csv;
+            } catch (e) {
+                console.error(e);
+                return "";
+            }
+        }
+        return gk_fileData[filename] || "";
+        }
+        </script><!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HardwareAssistant - PC Hardware & OS Comparisons</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <meta name="description" content="Free educational guides on PC hardware and OS comparisons, curated from public domain resources.">
+  <!-- Content Security Policy for Security -->
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://cdn.tailwindcss.com https://pagead2.googlesyndication.com https://www.googletagmanager.com; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'self' https://www.google-analytics.com;">
+</head>
+<body class="bg-gray-100 font-sans">
+  <!-- Navigation -->
+  <nav class="bg-blue-600 text-white p-4">
+    <div class="container mx-auto flex justify-between items-center">
+      <h1 class="text-2xl font-bold">HardwareAssistant</h1>
+      <div class="space-x-4">
+        <a href="#pc-hardware" class="hover:underline">PC Hardware</a>
+        <a href="#os-comparisons" class="hover:underline">OS Comparisons</a>
+        <a href="#about" class="hover:underline">About</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <header class="bg-blue-800 text-white text-center py-12">
+    <div class="container mx-auto">
+      <h2 class="text-4xl font-bold mb-4">Master Your Tech</h2>
+      <p class="text-lg mb-6">Free guides on PC hardware and OS comparisons, curated for enthusiasts and beginners.</p>
+      <a href="#donate" class="bg-yellow-400 text-black py-2 px-4 rounded hover:bg-yellow-500">Support Us</a>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="container mx-auto py-8 flex">
+    <!-- Content Area -->
+    <div class="w-3/4 pr-8">
+      <!-- PC Hardware Section -->
+      <section id="pc-hardware" class="mb-12">
+        <h3 class="text-2xl font-semibold mb-4">PC Hardware</h3>
+        <p class="mb-4">Learn about CPUs, GPUs, RAM, and more with guides sourced from public domain and Creative Commons resources.</p>
+        <button onclick="toggleSection('hardware-content')" class="bg-blue-600 text-white py-2 px-4 rounded">Learn More</button>
+        <div id="hardware-content" class="hidden mt-4">
+          <p>Example: Explore CPU architectures from <a href="https://en.wikipedia.org/wiki/CPU" class="text-blue-600 underline">Wikipedia</a> or Intel’s <a href="https://www.intel.com/content/www/us/en/developer/topic-technology/processors.html" class="text-blue-600 underline">public docs</a>.</p>
+        </div>
+      </section>
+
+      <!-- OS Comparisons Section -->
+      <section id="os-comparisons" class="mb-12">
+        <h3 class="text-2xl font-semibold mb-4">OS Comparisons</h3>
+        <p class="mb-4">Compare Windows, macOS, and Linux for gaming, productivity, and security using official documentation.</p>
+        <button onclick="toggleSection('os-content')" class="bg-blue-600 text-white py-2 px-4 rounded">Learn More</button>
+        <div id="os-content" class="hidden mt-4">
+          <p>Example: Windows vs. Linux gaming performance from <a href="https://ubuntu.com/" class="text-blue-600 underline">Ubuntu’s official site</a>.</p>
+        </div>
+      </section>
+
+      <!-- About Section -->
+      <section id="about">
+        <h3 class="text-2xl font-semibold mb-4">About Us</h3>
+        <p class="mb-4">HardwareAssistant provides free, curated tech education. Support our mission to keep knowledge accessible!</p>
+        <a id="donate" href="https://www.buymeacoffee.com" class="bg-yellow-400 text-black py-2 px-4 rounded hover:bg-yellow-500">Donate</a>
+      </section>
+    </div>
+
+    <!-- Sidebar for Ads -->
+    <aside class="w-1/4">
+      <div class="bg-white p-4 rounded shadow">
+        <h4 class="text-lg font-semibold mb-2">Sponsored</h4>
+        <!-- Placeholder for Google AdSense 300x250 banner -->
+        <div class="bg-gray-200 h-64 flex items-center justify-center">
+          <p class="text-gray-500">Ad Space (300x250)</p>
+        </div>
+      </div>
+    </aside>
+  </main>
+
+  <!-- Footer -->
+  <footer class="bg-gray-800 text-white text-center py-4">
+    <p>2025 HardwareAssistant. All content sourced from public domain and Creative Commons materials.</p>
+  </footer>
+
+  <!-- JavaScript for Interactivity -->
+  <script>
+    function toggleSection(sectionId) {
+      const section = document.getElementById(sectionId);
+      section.classList.toggle('hidden');
+    }
+  </script>
+</body>
+</html>
